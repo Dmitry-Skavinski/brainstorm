@@ -29,15 +29,17 @@ class Combinatorics
         return $this->factorial($sourceLength) / $this->factorial($sourceLength - $this->length); 
     }
 
-    protected function combine(array $combinations = [], int $size = 0): array
+    protected function combineKeys(array $combinations = [], int $size = 0): array
     {
         $chars = str_split($this->source);
 
         if (empty($combinations)) {
-            $combinations = $chars;
+            for ($i = 0; $i < count($chars); $i++) {
+                $combinations[] = [$i];
+            }
             $size = $this->length;
         }
-        
+
         if ($size === 1) {
             return $combinations;
         }
@@ -46,20 +48,25 @@ class Combinatorics
 
         for ($i = 0; $i < count($combinations); $i++) {
             for ($j = 0; $j < count($chars); $j++) {
-                if (strpos($combinations[$i], $chars[$j]) === false) {
-                    $newCombinations[] = $combinations[$i] . $chars[$j];
+                $combination = $combinations[$i];
+                $combination[] = $j;
+
+                if (array_count_values($combination)[$j] > 1) {
+                    continue;
                 }
+
+                $newCombinations[] = $combination;
             }
         }
 
-        return $this->combine($newCombinations, $size - 1);
+        return $this->combineKeys($newCombinations, $size - 1);
     }
 
     public function getCombinations()
     {
-        $combinations = $this->combine();
+        $combinations = $this->combineKeys();
         for ($i = 0; $i < count($combinations); $i++) {
-            echo $combinations[$i] . PHP_EOL;
+            echo implode($combinations[$i]) . PHP_EOL;
         }
     }
 
