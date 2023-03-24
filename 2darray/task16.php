@@ -4,7 +4,7 @@ function sortByLargesInRow(array $matrix): array
     $max = [];
     for ($i = 0; $i < count($matrix); $i++) {
         $maxInRow = PHP_FLOAT_MIN;
-        for ($j = 1; $j < count($matrix[$i]); $j++) {
+        for ($j = 0; $j < count($matrix[$i]); $j++) {
             if ($matrix[$i][$j] > $maxInRow) {
                 $maxInRow = $matrix[$i][$j];
             }
