@@ -21,7 +21,7 @@ function leastAverage(array $matrix): int
         }
     }
 
-    return $i;
+    return $index;
 }
 
 $matrix = [
